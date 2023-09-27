@@ -19,21 +19,36 @@ export const GET = async (request, { params }) => {
 }
 // PATCH - do update'u danych
 export const PATCH = async (request, { params }) => {
-    const { name,surname,gr,tel,email } = await request.json();
-
+    const { name,surname,gr,tel,email,note,payments } = await request.json();
+    console.log(name,surname,gr,tel,email,note,payments )
     try {
         await connectToDB();
 
         const existingParticipant = await Participant.findById(params.id);
 
         if(!existingParticipant) return new Response("Participant not found", {status: 404});
-
-        existingParticipant.name = name;
-        existingParticipant.surname = surname;
-        existingParticipant.gr = gr;
-        existingParticipant.tel = tel;
-        existingParticipant.email = email;
-
+        if(name !== undefined){
+            existingParticipant.name = name;
+        }
+        if(surname !== undefined){
+            existingParticipant.surname = surname;
+        }
+        if(gr !== undefined){
+            existingParticipant.gr = gr;
+        }
+        if(tel !== undefined){
+            existingParticipant.tel = tel;
+        }
+        if(email !== undefined){
+            existingParticipant.email = email;
+        }
+        if(note !== undefined){
+            existingParticipant.note = note;
+        }
+        if(payments !== undefined){
+            existingParticipant.payments = payments;
+        }
+        console.log(existingParticipant);
         await existingParticipant.save();
 
         return new Response(JSON.stringify(existingParticipant), {status: 200});

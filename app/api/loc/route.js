@@ -1,5 +1,5 @@
 import { connectToDB } from "@utils/database";
-import Loc from "@models/Oldloc";
+import Loc from "@models/loc";
 
 export const GET = async (request) => {
     try {

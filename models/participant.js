@@ -24,7 +24,14 @@ const ParticipantSchema = new Schema({
     presence:[{
         type: String,
     }],
-    payments: Number,
+    payments: [{
+        money: String,
+        month: String,
+        note: String,
+    }],
+    note: {
+        type: String,
+    },
     
     
 });

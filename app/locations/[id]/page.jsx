@@ -20,16 +20,17 @@ const DaysCardList = ({ data, handleClick}) => {
 }
 
 const Groups = ({ params }) => {
-    const [groups, setGroups] = useState([]);
+    const [days, setDays] = useState([]);
+    const [loc, setLoc] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
         const fetchGroups = async () => {
           const response = await fetch(`/api/loc/days/${params?.id}`);
           const data = await response.json();
-    
-          setGroups(data);
-          console.log(data);
+          const days = data.daysOfWeek.slice();
+          setDays(days);
+          console.log(days);
         };
     
         if (params?.id) fetchGroups();
@@ -44,7 +45,7 @@ const Groups = ({ params }) => {
         <section >
         <GoBack />
         <DaysCardList
-        data={groups} 
+        data={days} 
         handleClick={handleClick} 
         />
     </section>

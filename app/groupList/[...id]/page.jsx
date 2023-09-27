@@ -9,13 +9,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import pl from 'date-fns/locale/pl';
 import { getDay } from 'date-fns';
-import format from 'date-fns/format'
+
 
 
 
 const GroupList = ({params}) => {
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [list, setList] = useState(null)
+  const [day,setDay] = useState();
+  const [allLocs,setAllLocs] = useState();
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -38,11 +40,23 @@ const GroupList = ({params}) => {
     if (params?.id) fetchGroups();
   }, [params.id]);
 
+  const fetchLoc = async () => {
+    const response = await fetch('/api/loc');
+    const loc = await response.json();
+
+    setAllLocs(loc);
+    console.log(loc)
+    console.log(params.id[0])
+  };
+
+  useEffect(() => {
+    fetchLoc();
+  
+  }, []);
+
   const isSelectedDay = (date) => {
     const day = getDay(date);
-    return day !== 0 && day !== 6;
-
-  
+    return day !== 0;
   };
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <button className="border-2 border-black rounded-full text-center px-2 bg-transparent text-xl" onClick={onClick} ref={ref}>
@@ -50,32 +64,7 @@ const GroupList = ({params}) => {
     </button>
   ));
 
-  const handleCheckboxChange = async (id,selectedDate) => {
-    const formatedDate =  format(selectedDate,'dd/MM/yyyy')
-    console.log(formatedDate)
-    console.log(id)
-    try {
-      const response = await fetch('/api/presence', {
-        method: 'PATCH',
-        body: JSON.stringify({
-            id: id,
-            date: formatedDate,
-        }),
-      
-      });
-      if (response.ok) {
-        // Pomyślnie dodano obecność
-        // Tutaj możesz wykonać odpowiednie akcje, np. wyświetlić komunikat o sukcesie
-        console.log('Obecność została pomyślnie dodana.');
-      } else {
-        // Obsłuż błąd z serwera
-        console.error('Wystąpił błąd podczas dodawania obecności.');
-      }
-    } catch (error) {
-      console.error('Wystąpił błąd podczas wysyłania żądania.', error);
-    }
-  };
-
+  
 
 
   return (
@@ -99,7 +88,6 @@ const GroupList = ({params}) => {
       {list !==null &&(
     <ParticipantList 
       participants={list}
-      handleCheckboxChange={handleCheckboxChange}
       selectedDate={selectedDate}
     />
     )}
