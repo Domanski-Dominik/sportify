@@ -7,7 +7,7 @@ export const POST = async (req) => {
     try {
         await connectToDB();
 
-        const { name,surname,gr,tel,email,presence,payments } = await req.json();
+        const { name,surname,gr,tel,email,presence,payments,note } = await req.json();
         
 
         //Tworzenie nowego uczestnika 
@@ -19,6 +19,7 @@ export const POST = async (req) => {
             email: email,
             presence: presence,
             payments: payments,
+            note: note,
         });
         console.log(newParticipant);
         const savedParticipant = await newParticipant.save();

@@ -18,8 +18,9 @@ const CreateParticipant = () => {
       day: '',
     }],
     email:'',
-    presence: null,
-    payments: null,
+    presence: [],
+    payments: [],
+    note: null,
   });
 
   const createParticipant = async (e) => {
@@ -36,8 +37,9 @@ const CreateParticipant = () => {
             tel: participant.tel,
             gr: participant.gr,
             email: participant.email,
-            presence: null,
-            payments: null,
+            presence: [],
+            payments: [],
+            note: null,
         })
       })
       if(response.ok) {
