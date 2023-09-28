@@ -285,7 +285,7 @@ const ParticipantList = ({ participants,selectedDate }) => {
 
     return (
         <>
-          <table className="w-screen max-w-5xl text-left text-sm table-auto font-normal ">
+          <table className="w-screen max-w-5xl text-left text-sm table-auto font-normal mb-[10vh]">
             <thead
               className=" border-b bg-transparent font-medium ">
               <tr>
@@ -328,13 +328,14 @@ const ParticipantList = ({ participants,selectedDate }) => {
                   </td>
                   <td 
                    className="py-2 text-center pr-5 "
+                   onClick={() => toggleOptions(participant)} 
                   >
-                    <FontAwesomeIcon icon={faEllipsisVertical} onClick={() => toggleOptions(participant)} />
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
                    {/* Rozwijane płatności, informacje i dodaj notatkę 
                    jęsli ktoś zalega z płatnościa po 10 podświetl nazwisko na czerwono
                    */ }
                     {showOptions && selectedParticipant === participant && (
-                      <div className="absolute right-0 mt-2 w-48 bg-gray-100 rounded-lg shadow-lg">
+                      <div className={`absolute ${ index >= 8 ? '-translate-y-[9.75rem]' : ''} right-0 mt-2 w-48 bg-gray-100 rounded-lg shadow-lg `}>
                       <ul className="py-1">
                         <li
                           className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b"

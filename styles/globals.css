@@ -127,6 +127,7 @@ body {background-color: black;}
 }
 .day_card {
   @apply flex-1 break-inside-avoid rounded-2xl border-4 border-black  p-6 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit
+ 
   
   
   bg-gradient-to-r from-pink-400 from-10% via-purple-400 via-30% to-cyan-300 to-90% bg-clip-padding;
