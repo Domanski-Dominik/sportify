@@ -37,7 +37,7 @@ body {background-color: black;}
 }
 
 .app {
-  @apply relative z-10 flex justify-center items-center flex-col max-w-5xl mx-auto sm:px-16 px-0.5 py-20 min-h-screen bg-violet-400/[0.4];
+  @apply relative z-10 flex justify-center items-center flex-col  mx-auto sm:px-16 px-0.5 py-20 min-h-screen bg-violet-300 max-w-5xl ;
 }
 
 .group_layout {
