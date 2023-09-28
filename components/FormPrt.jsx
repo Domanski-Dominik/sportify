@@ -102,7 +102,6 @@ const handleGroupChange = (e) => {
             onChange={(e) => setParticipant({ ...participant, tel: e.target.value })}
             type='number'
             placeholder='Podaj numer telefonu'
-            required
             className='form_input'
           />
         </label>
