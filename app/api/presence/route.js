@@ -19,7 +19,7 @@ export const PATCH = async (req) => {
         existingParticipant.presence = [];
       }
     
-      console.log(existingParticipant.presence);
+      console.log('Obecność: ',existingParticipant.presence);
       existingParticipant.presence.push(date);
       //console.log(existingParticipant);
       await existingParticipant.save();
@@ -39,7 +39,7 @@ export const PATCH = async (req) => {
 
       if(!existingParticipant) return new Response("Participant not found", {status: 404});
     
-      console.log(existingParticipant.presence);
+      console.log('Obecność: ',existingParticipant.presence);
 
       await existingParticipant.save();
 

@@ -1,10 +1,10 @@
 'use client'
 
-import SheetData from "@components/GoogleSheets"
+import AllParticipantList from "@components/AllParticipantList"
 
 const Participants = () => {
   return (
-    <>Participants</>
+    <AllParticipantList />
   )
 }
 

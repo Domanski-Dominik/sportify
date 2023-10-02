@@ -13,7 +13,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="pl">
-        <body className=''>
+        <body className='sm:scale-100 md:scale-100 lg:scale-100 xl:scale-100'>
         <Provider>
             <Nav />
             <main className='app'>

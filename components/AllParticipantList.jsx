@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import pl from 'date-fns/locale/pl';
 import Modal from "./Modal";
 
-const ParticipantList = ({ participants,selectedDate }) => {
+const AllParticipantList = () => {
   
   //Stany do modali
 
@@ -19,37 +19,35 @@ const ParticipantList = ({ participants,selectedDate }) => {
   const [amount, setAmount] = useState("");
   const [payNote, setPayNote] = useState("");
   const [note, setNote] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState(selectedDate);
-  const [editedParticipant, setEditedParticipant] = useState({})
-  const [participantss, setParticipantss] = useState(participants)
+  const [selectedMonth, setSelectedMonth] = useState(new Date);
+  const [editedParticipant, setEditedParticipant] = useState({});
+  const [allParticipants,setAllParticipants] = useState([]);
 
-  // Obecność
-
-  // Sprawdzamy obecność dla każdego uczestnika w tablicy i aktualizujemy stan
-  useEffect(() => {
-    const updatedPresenceStates = {};
-    participants.forEach(participant => {
-      const isPresent = participant.presence.some(presence => presence === formattedDate);
-      updatedPresenceStates[participant._id] = isPresent;
-    });
-    setPresenceStates(updatedPresenceStates);
-    const sortedParticipants = [...participants].sort((a, b) => {
-      const surnameCopmarison = a.surname.localeCompare(b.surname);
-      if (surnameCopmarison !== 0) {
-        return surnameCopmarison
-      }
-      return a.name.localeCompare(b.name);});
-    setParticipantss(sortedParticipants);
-  }, [participants, selectedDate]);
-
-  // Przechowuje informacje o obecności każdego uczestnika
-  const [presenceStates, setPresenceStates] = useState({});
-  const formattedDate = format(selectedDate, 'dd/MM/yyyy');
 
   // Odpala opcje po naciśnięciu 3 kropek i przypisuje participanta
   const [showOptions, setShowOptions] = useState(false);
   const [selectedParticipant, setSelectedParticipant] = useState(null);
   
+  // Pobierz participantów 
+  useEffect (() => {
+    const fetchData = async () => {
+      const response = await fetch('api/participant');
+      const data = await response.json();
+      const sortedParticipants = data.sort((a, b) => {
+        const surnameCopmarison = a.surname.localeCompare(b.surname);
+        if (surnameCopmarison !== 0) {
+          return surnameCopmarison;
+        }
+        return a.name.localeCompare(b.name);
+      });
+      setAllParticipants(sortedParticipants);
+    };
+  
+    fetchData();
+  }, []);
+  
+
+
   // Rozwijana lista po wciśnieciu 3 kropek
   const toggleOptions = (participant) => {
     setShowOptions(!showOptions);
@@ -57,74 +55,13 @@ const ParticipantList = ({ participants,selectedDate }) => {
     console.log(participant)
   };
 
-  // Aktualizujemy stan obecności po zmianie stanu checkboxa
-
-  const handleClick = async (id,formattedDate) => {
-    // Zmieniamy stan uczestnika przy kliknięciu checkboxa
-    setPresenceStates(prevState => ({
-      ...prevState,
-      [id]: !prevState[id], // Odwracamy wartość
-    }));
-
-    if(presenceStates[id]===false)
-    {
-      const toDo = 'zapisz';
-      console.log('Jest obecna!');
-      try {
-        const response = await fetch('/api/presence', {
-          method: 'PATCH',
-          body: JSON.stringify({
-              id: id,
-              date: formattedDate,
-              toDo: toDo,
-          }),
-        
-        });
-        if (response.ok) {
-          // Pomyślnie dodano obecność
-          // Tutaj możesz wykonać odpowiednie akcje, np. wyświetlić komunikat o sukcesie
-          console.log(`Obecność dnia ${formattedDate} została pomyślnie dodana`);
-        } else {
-          // Obsłuż błąd z serwera
-          console.error('Wystąpił błąd podczas dodawania obecności.');
-        }
-      } catch (error) {
-        console.error('Wystąpił błąd podczas wysyłania żądania.', error);
-      }
-
-    } else {
-      const toDo = 'usun';
-      console.log('Już nie obecna')
-      try {
-        const response = await fetch('/api/presence', {
-          method: 'PATCH',
-          body: JSON.stringify({
-              id: id,
-              date: formattedDate,
-              toDo: toDo,
-          }),
-        
-        });
-        if (response.ok) {
-          // Pomyślnie usunięto obecność
-          console.log(`Obecność dnia ${formattedDate} została pomyślnie usunięta`);
-        } else {
-          // Obsłuż błąd z serwera
-          console.error('Wystąpił błąd podczas usuwania obecności.');
-        }
-      } catch (error) {
-        console.error('Wystąpił błąd podczas wysyłania żądania usunięcia.', error);
-      }
-  }
-  };
 
   // Obsługa formularza płatności
 
   const handlePaymentClick = () => {
     // Funkcja do wyświetlania modala po naciśnięciu płatności
     setOpenPay(true);
-    setSelectedMonth(selectedDate);
-    const formattedDateToPay = format(selectedDate, 'MM/yyyy');
+    const formattedDateToPay = format(selectedMonth, 'MM/yyyy');
     console.log(formattedDateToPay); 
     if(selectedParticipant.payments.some(pay => pay.month === formattedDateToPay)){
       const payment =selectedParticipant.payments.find(pay => pay.month === formattedDateToPay)
@@ -290,13 +227,6 @@ const ParticipantList = ({ participants,selectedDate }) => {
         console.error('Wystąpił błąd podczas wysyłania żądania.', error);
     }
     console.log(editedParticipant);
-    const indexToEdit = participantss.findIndex(participant => participant._id === id);
-    if(indexToEdit !== -1) {
-      participantss[indexToEdit]=editedParticipant;
-    } else {
-      console.log('Nie znaleziono uczestnika do edycji', indexToEdit)
-    }
-
     setOpenEdit(false);
   };
 
@@ -317,9 +247,9 @@ const ParticipantList = ({ participants,selectedDate }) => {
       console.error('Wystąpił błąd podczas wysyłania żądania.', error);
     }
     setOpenEdit(false);
-    const indexToRemove = participants.findIndex(participant => participant._id === id);
+    const indexToRemove = allParticipants.findIndex(participant => participant._id === id);
     if(indexToRemove !== -1) {
-      participants.splice(indexToRemove,1)
+      allParticipants.splice(indexToRemove,1)
     } else {
       console.log('Nie znaleziono uczestnika do usunięcia', indexToRemove)
     }
@@ -327,19 +257,18 @@ const ParticipantList = ({ participants,selectedDate }) => {
 
     return (
         <>
-          <table className="w-screen max-w-5xl text-left text-sm table-auto font-normal mb-[10vh]">
+          <table className="w-screen max-w-5xl text-left text-sm table-auto font-normal mb-[10vh] ">
             <thead
               className=" border-b bg-transparent font-medium ">
               <tr>
               <th scope="col" className="text-center px-2">#</th>
                 <th scope="col" className="py-2">Nazwisko</th>
                 <th scope="col" className="py-2">Imię</th>
-                <th scope="col" className="py-2 text-center">Obecny</th>
                 <th scope="col" className="py-2 "></th>
               </tr>
             </thead>
             <tbody>
-              {participantss.map((participant,index) => (
+              {allParticipants && allParticipants.map((participant,index) => (
               <tr key={participant._id} 
                 className="border-b bg-transparent ">
                   <td 
@@ -357,17 +286,7 @@ const ParticipantList = ({ participants,selectedDate }) => {
                   >
                     {participant.name}
                   </td>
-                  <td 
-                   className="py-2 text-center "
-                  >
-                    <input 
-                     type="checkbox" 
-                     id={participant._id} 
-                     className="checkbox" 
-                     checked={presenceStates[participant._id] || false}
-                     onChange={() => handleClick(participant._id,formattedDate)}
-                    />
-                  </td>
+                 
                   <td 
                    className="py-2 text-center pr-5 "
                    onClick={() => toggleOptions(participant)} 
@@ -377,7 +296,7 @@ const ParticipantList = ({ participants,selectedDate }) => {
                    jęsli ktoś zalega z płatnościa po 10 podświetl nazwisko na czerwono
                    */ }
                     {showOptions && selectedParticipant === participant && (
-                      <div className={`absolute ${participants.length - index <= 3 && participants.length >= 10 ? '-translate-y-[9.75rem]' : ''} right-0 mt-2 w-48 bg-gray-100 rounded-lg shadow-lg `}>
+                      <div className={`absolute ${allParticipants.length - index <= 3 && allParticipants.length >= 10 ? '-translate-y-[9.75rem]' : ''} right-0 mt-2 w-48 bg-gray-100 rounded-lg shadow-lg `}>
                       <ul className="py-1">
                         <li
                           className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b"
@@ -581,4 +500,4 @@ const ParticipantList = ({ participants,selectedDate }) => {
     );
 };
 
-export default ParticipantList;
+export default AllParticipantList;
