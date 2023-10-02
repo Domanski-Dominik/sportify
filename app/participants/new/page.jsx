@@ -43,7 +43,7 @@ const CreateParticipant = () => {
         })
       })
       if(response.ok) {
-        router.push('/participants');
+        window.history.back();
       }
       
     } catch (error) {

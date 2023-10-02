@@ -38,7 +38,8 @@ const handleLocationChange = (e) => {
   .filter((location) => location._id === e.target.value)
   .map((location) => location.daysOfWeek);
   const temp2Days = tempDays[0];
-  setDays(temp2Days)
+  setDays(temp2Days);
+  console.log(temp2Days);
 };
 
 const handleDaysOfWeekChange = (e) => {
