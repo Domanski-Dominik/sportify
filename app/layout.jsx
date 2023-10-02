@@ -13,7 +13,10 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="pl">
-        <body className='sm:scale-100 md:scale-100 lg:scale-100 xl:scale-100'>
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no,minimal-ui"/>
+        </head>
+        <body className=''>
         <Provider>
             <Nav />
             <main className='app'>
