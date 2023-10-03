@@ -1,9 +1,9 @@
 import Login from "@components/Login"
+import { useSession } from 'next-auth/react';
+
 const Home = () => {
   return (
-    <section className="w-full flex-center flex-col">
-        <Login />
-    </section>
+       <div className='head_text text-center'> <span className='blue_gradient'>Witaj w systemie!</span></div>
   )
 }
 
