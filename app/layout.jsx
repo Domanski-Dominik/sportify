@@ -1,19 +1,22 @@
 import '@styles/globals.css';
 import Nav from '@components/Nav';
 import Provider from '@components/Provider';
+import Head from 'next/head';
 
 
 
 export const metadata = {
     title: "Sportify",
     description: "Organize, rule, and much more!",
-    name: "viewport",
-    content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
 }
 
 const RootLayout = ({ children }) => {
   return (
     <html lang="pl">
+        <Head >
+          <meta name='apple-mobile-web-app-capable' content='yes'/>
+          <meta name='mobile-web-app-capable' content='yes'/>
+        </Head>
         <body className=''>
         <Provider>
             <Nav />
