@@ -264,6 +264,7 @@ const AllParticipantList = () => {
               <th scope="col" className="text-center px-2">#</th>
                 <th scope="col" className="py-2">Nazwisko</th>
                 <th scope="col" className="py-2">Imię</th>
+                <th scope="col" className="py-2">Grupa</th>
                 <th scope="col" className="py-2 "></th>
               </tr>
             </thead>
@@ -286,7 +287,12 @@ const AllParticipantList = () => {
                   >
                     {participant.name}
                   </td>
-                 
+                  <td 
+                   className="py-2"
+                  >
+                    {participant.gr[0].name}
+                  </td>
+
                   <td 
                    className="py-2 text-center pr-5 "
                    onClick={() => toggleOptions(participant)} 
@@ -326,8 +332,7 @@ const AllParticipantList = () => {
           </table>
           <Modal open={openPay} onClose={() => setOpenPay(false)}>
             <div className="text-center w-56"> 
-             
-              
+
               <form 
                className=' w-full max-w-2xl flex flex-col gap-5 '
                onSubmit={handleSubmitPay}
@@ -433,8 +438,9 @@ const AllParticipantList = () => {
             </div>
           </Modal>
           <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
-            {selectedParticipant !== null && (<div className="text-center w-56"> 
-             <FontAwesomeIcon icon={faTrashCan} className="text-2xl flex-start" style={{color:"ef4444"}} onClick={handleDelete}/>
+            {selectedParticipant !== null && (<div>
+            <FontAwesomeIcon icon={faTrashCan} className="text-2xl aboslute top-2 left-2" style={{color:"ef4444"}} onClick={handleDelete}/>
+            <div className="text-center w-56"> 
             <form className='mt-5 w-full max-w-2xl flex flex-col gap-6'
                onSubmit={handleSubmitEdit}>
               <FontAwesomeIcon className="text-4xl" icon=  {faPenToSquare} />
@@ -493,6 +499,7 @@ const AllParticipantList = () => {
                 </button>
               </div>
               </form>
+            </div>
             </div>)}
             
           </Modal>

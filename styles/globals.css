@@ -89,7 +89,7 @@ body {
 }
 
 .glassmorphism {
-  @apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-5;
+  @apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)]  p-5;
 }
 
 
@@ -115,7 +115,7 @@ body {
 }
 
 .bottom_nav {
-  @apply border-solid border-2 border-b-0 border-t-black border-l-0 border-r-0 z-50 fixed bottom-0 w-screen mt-10 pb-3 pt-3 
+  @apply border-solid border-2 border-b-0 border-t-black border-l-0 border-r-0 z-50 fixed bottom-0 w-screen pb-3 pt-3
 }
 
 /* Cards Component */

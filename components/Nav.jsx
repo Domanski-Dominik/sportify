@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import {signIn, signOut, useSession, getProviders} from 'next-auth/react'
 
 const Nav = () => {
-  const { data: session }= useSession();
+  const { data: session,status }= useSession();
 
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, settoggleDropdown] = useState(false);
@@ -179,11 +179,8 @@ const Nav = () => {
       </div>
       </div>
     </nav>
-   
+  
     {/* Mobile Navigation Bottom*/}
-    {session?.user ? (
-      
-      //tutaj jestem zalogowany
       <footer className='color_gradient bottom_nav sm:hidden'>
         <div className="sm:hidden flex relative">
         <Link href='' className="w-1/5 text-center px-px" >
@@ -212,7 +209,7 @@ const Nav = () => {
               <div className="absolute bottom-20 end-1/4 p-1 rounded-lg bg-white flex flex-col w-1/2 items-center z-10 border-2 border-black">
                <ul className="list-none">
                 <li className="w-full border-b-2 border-black border-opacity-100 py-3 dark:border-opacity-50"><Link 
-                 href="/participants/new"
+                 href="/locations/group/new"
                  className=" text-sm font-inter text-gray-700 hover:text-gray-500 font-medium"
                  onClick={() => setToggleDropUp(false)}
                  >
@@ -236,7 +233,6 @@ const Nav = () => {
               </div>
             )}
       </footer>
-    ):(<></>)}
       
     </>
   )

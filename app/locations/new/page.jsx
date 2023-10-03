@@ -2,25 +2,21 @@
 
 import LocationForm from '@components/FormLoc';
 import GoBack from '@components/GoBack';
+import { useSession } from 'next-auth/react';
 
 const CreateLoc = () => {
-  return (
-    <div>
-    <GoBack />
-    <LocationForm 
-      type={'Utwórz'}
-    />
-    </div>
-  )
+  const {data:session,status }= useSession();
+  if (status === "authenticated") {
+    return (
+      <div>
+      <GoBack />
+      <LocationForm 
+        type={'Utwórz'}
+      />
+      </div>
+    )
+  };
+  return <Login />
 }
 
 export default CreateLoc
-
-/* 
-<LocationForm 
-    loc={loc}
-    type={'Utwórz'}
-    submitting={submitting}
-    handleSubmit={createLoc}
-    setLoc={setLoc}/>
-    */

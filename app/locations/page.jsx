@@ -2,7 +2,9 @@
 
 import {useState, useEffect} from 'react';
 import LocCard from '@components/LocCard' ;
-import { usePathname, useRouter,Link } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useSession } from 'next-auth/react';
+import Login from '@components/Login';
 
 const LocCardList = ({ data, handleClick}) => {
     return (
@@ -21,6 +23,8 @@ const LocCardList = ({ data, handleClick}) => {
 const Locations = () => {
   const [allLocs, setAllLocs] = useState([])
   const router = useRouter();
+  const {data:session,status }= useSession();
+ 
 
 
   const fetchLoc = async () => {
@@ -32,7 +36,7 @@ const Locations = () => {
 
   useEffect(() => {
     fetchLoc();
-  }, []);
+  }, [session]);
   
 
   const handleClick = (clickedId) => {
@@ -41,16 +45,19 @@ const Locations = () => {
     router.push(`/locations/${clickedId}`)
 
   };
-  return (
-    <section >
-        <LocCardList
-        data={allLocs} 
-        handleClick={handleClick} 
-        />
-      
-    </section>
-  
-  )
+  if (status === "authenticated") {
+    return (
+      <section >
+          <LocCardList
+          data={allLocs} 
+          handleClick={handleClick} 
+          />
+        
+      </section>
+    
+    )
+  };
+  return <Login />;
 }
 
 export default Locations
