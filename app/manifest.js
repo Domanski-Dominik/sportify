@@ -5,7 +5,7 @@ export default function manifest() {
       description: 'Organize and rule your sport club',
       start_url: '/',
       display: 'standalone',
-      background_color: 'black',
+      background_color: '#ddd6fe',
       theme_color: 'black',
       icons: [
         {
