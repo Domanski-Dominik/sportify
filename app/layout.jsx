@@ -13,10 +13,10 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="pl">
-        <Head >
-          <meta name='apple-mobile-web-app-capable' content='yes'/>
-          <meta name='mobile-web-app-capable' content='yes'/>
-        </Head>
+       
+          <meta name="apple-mobile-web-app-capable" content="yes"/>
+          <meta name="mobile-web-app-capable" content="yes"/>
+       
         <body className=''>
         <Provider>
             <Nav />
