@@ -1,7 +1,7 @@
 import '@styles/globals.css';
 import Nav from '@components/Nav';
 import Provider from '@components/Provider';
-import Head from 'next/head';
+
 
 
 
@@ -16,6 +16,7 @@ const RootLayout = ({ children }) => {
        
           <meta name="apple-mobile-web-app-capable" content="yes"/>
           <meta name="mobile-web-app-capable" content="yes"/>
+          <meta name="apple-mobile-web-app-status-bar-style" content="black"></meta>
        
         <body className=''>
         <Provider>
