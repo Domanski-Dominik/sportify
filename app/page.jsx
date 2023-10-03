@@ -1,10 +1,8 @@
-import Feed from "@components/Feed"
+import Login from "@components/Login"
 const Home = () => {
   return (
     <section className="w-full flex-center flex-col">
-        
-
-        <Feed />
+        <Login />
     </section>
   )
 }

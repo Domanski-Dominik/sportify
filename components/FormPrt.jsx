@@ -168,7 +168,7 @@ const handleGroupChange = (e) => {
                 onChange={handleGroupChange}
                 className='form_input'
                 >
-                  <option value='' className='form_input'>Wybierz Dzień</option>
+                  <option value='' className='form_input'>Wybierz Grupę</option>
                   {
                   days.map(daysOfWeek=>{
                     if( daysOfWeek._id === selectedDaysOfWeek) {

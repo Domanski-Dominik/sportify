@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import DaysCard from "@components/DaysCard";
 import GoBack from "@components/GoBack";
+import Login from "@components/Login";
 
 const DaysCardList = ({ data, handleClick}) => {
     return (
@@ -23,6 +25,8 @@ const Groups = ({ params }) => {
     const [days, setDays] = useState([]);
     const [loc, setLoc] = useState([]);
     const router = useRouter();
+    const {data:session,status }= useSession();
+    
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -41,15 +45,19 @@ const Groups = ({ params }) => {
 
         router.push(`/locations/group/${clickedId}`)
       };
-    return (
-        <section >
-        <GoBack />
-        <DaysCardList
-        data={days} 
-        handleClick={handleClick} 
-        />
-    </section>
-  )
+
+      if (status === "authenticated") {
+        return (
+          <section >
+          <GoBack />
+          <DaysCardList
+          data={days} 
+          handleClick={handleClick} 
+          />
+      </section>
+    )
+      };
+  return <Login />
 }
 
 export default Groups

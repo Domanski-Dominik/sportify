@@ -3,7 +3,9 @@
 import GrCard from '@components/GrCard';
 import {useEffect,useState} from 'react'
 import {useRouter} from 'next/navigation'
+import { useSession } from 'next-auth/react';
 import GoBack from '@components/GoBack';
+import Login from '@components/Login';
 
 const GrCardList = ({ data, handleClick}) => {
   return (
@@ -22,6 +24,7 @@ const GrCardList = ({ data, handleClick}) => {
 const Group = ({ params }) => {
   const router = useRouter();
   const [groups, setGroups] = useState([])
+  const {data:session,status }= useSession();
   
   useEffect(() => {
     const fetchGroups = async () => {
@@ -40,16 +43,21 @@ const Group = ({ params }) => {
 
     router.push(`/groupList/${params.id}/${clickedId}`)
   };
-
-  return (
-    <section >
-        <GoBack />
-        <GrCardList
-        data={groups} 
-        handleClick={handleClick} 
-        />
-    </section>
-  )
+  if (status === "authenticated") {
+    return (
+      <section >
+          <GoBack />
+          <GrCardList
+          data={groups} 
+          handleClick={handleClick} 
+          />
+  
+      </section>
+    )
+  };
+  return <Login />
+     
+  
 }
 
 export default Group

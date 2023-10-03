@@ -2,12 +2,11 @@
 
 import FormPrt from "@components/FormPrt"
 import GoBack from "@components/GoBack";
-import { useRouter } from "next/navigation";
+import Login from "@components/Login";
 import { useState } from 'react'
+import { useSession } from "next-auth/react";
 
 const CreateParticipant = () => {
-  const router= useRouter();
-
   const [submitting, setSubmitting] = useState(false);
   const [participant, setParticipant] = useState({
     name: '',
@@ -22,6 +21,7 @@ const CreateParticipant = () => {
     payments: [],
     note: null,
   });
+  const {data:session,status }= useSession();
 
   const createParticipant = async (e) => {
     e.preventDefault();
@@ -53,6 +53,7 @@ const CreateParticipant = () => {
     }
   }
 
+  if(status === "authenticated"){
   return (
     <div>
         <GoBack />
@@ -65,6 +66,8 @@ const CreateParticipant = () => {
         />
     </div>
   )
+  };
+  return <Login />;
 }
 
 export default CreateParticipant
