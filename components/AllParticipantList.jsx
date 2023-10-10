@@ -8,9 +8,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import pl from 'date-fns/locale/pl';
 import Modal from "./Modal";
+import Loading from "./loading";
 
 const AllParticipantList = () => {
   
+  const [loading, setLoading] = useState(true)
   //Stany do modali
 
   const [openPay, setOpenPay] = useState(false)
@@ -29,20 +31,21 @@ const AllParticipantList = () => {
   const [selectedParticipant, setSelectedParticipant] = useState(null);
   
   // Pobierz participantów 
+  const fetchData = async () => {
+    const response = await fetch('api/participant');
+    const data = await response.json();
+    const sortedParticipants = data.sort((a, b) => {
+      const surnameCopmarison = a.surname.localeCompare(b.surname);
+      if (surnameCopmarison !== 0) {
+        return surnameCopmarison;
+      }
+      return a.name.localeCompare(b.name);
+    });
+    setAllParticipants(sortedParticipants);
+    setLoading(false);
+  };
+
   useEffect (() => {
-    const fetchData = async () => {
-      const response = await fetch('api/participant');
-      const data = await response.json();
-      const sortedParticipants = data.sort((a, b) => {
-        const surnameCopmarison = a.surname.localeCompare(b.surname);
-        if (surnameCopmarison !== 0) {
-          return surnameCopmarison;
-        }
-        return a.name.localeCompare(b.name);
-      });
-      setAllParticipants(sortedParticipants);
-    };
-  
     fetchData();
   }, []);
   
@@ -136,6 +139,7 @@ const AllParticipantList = () => {
       setPayNote("");
       setOpenPay(false);
       setShowOptions(false);
+      fetchData();
   };
 
   // Obsługa formularza notatki
@@ -180,6 +184,7 @@ const AllParticipantList = () => {
       setNote("");
       setOpenNote(false)
       setShowOptions(!showOptions);
+      fetchData();
   };
 
   // Obsługa formularza edycji uczestnika
@@ -228,6 +233,7 @@ const AllParticipantList = () => {
     }
     console.log(editedParticipant);
     setOpenEdit(false);
+    fetchData();
   };
 
   const handleDelete = async (event) => {
@@ -253,10 +259,14 @@ const AllParticipantList = () => {
     } else {
       console.log('Nie znaleziono uczestnika do usunięcia', indexToRemove)
     }
+    fetchData();
   };
 
     return (
-        <>
+      <>
+        {loading? (
+         <Loading />
+      ) : (<>
           <table className="w-screen max-w-5xl text-left text-sm table-auto font-normal mb-[10vh] ">
             <thead
               className=" border-b bg-transparent font-medium ">
@@ -503,7 +513,8 @@ const AllParticipantList = () => {
             </div>)}
             
           </Modal>
-      </>
+      </>)}   
+    </>
     );
 };
 

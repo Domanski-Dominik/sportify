@@ -514,8 +514,9 @@ const ParticipantList = ({ participants,selectedDate }) => {
             </div>
           </Modal>
           <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
-            {selectedParticipant !== null && (<div className="text-center w-56"> 
-             <FontAwesomeIcon icon={faTrashCan} className="text-2xl flex-start" style={{color:"ef4444"}} onClick={handleDelete}/>
+            {selectedParticipant !== null && (<>
+            <FontAwesomeIcon icon={faTrashCan} className="text-2xl aboslute top-2 left-2" style={{color:"ef4444"}} onClick={handleDelete}/>
+            <div className="text-center w-56"> 
             <form className='mt-5 w-full max-w-2xl flex flex-col gap-6'
                onSubmit={handleSubmitEdit}>
               <FontAwesomeIcon className="text-4xl" icon=  {faPenToSquare} />
@@ -574,7 +575,7 @@ const ParticipantList = ({ participants,selectedDate }) => {
                 </button>
               </div>
               </form>
-            </div>)}
+            </div></>)}
             
           </Modal>
       </>

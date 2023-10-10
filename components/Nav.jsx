@@ -1,6 +1,6 @@
 "use client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome,faUsers,faUserCheck,faCoins,faPlus} from "@fortawesome/free-solid-svg-icons";
+import { faHome,faUsers,faUserCheck,faCoins,faPlus, faCircleUser} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -18,7 +18,7 @@ const Nav = () => {
       const response = await getProviders();
       setProviders(response);
     }
-
+    
     setUpProviders();
   }, [])
 
@@ -58,14 +58,12 @@ const Nav = () => {
               Obecność
             </Link>
 
-            <Image 
-             src={session?.user.image}
-             width={37}
-             height={37}
-             className="rounded-full"
-             alt="profile"
-             onClick={() => settoggleDropdown((prev) => !prev)}
+            <FontAwesomeIcon 
+              icon={faCircleUser} alt="profile"
+              onClick={() => settoggleDropdown((prev) => !prev)} 
+              className="text-4xl mr-4"
             />
+           
             {toggleDropdown && (
               <div className="absolute right-0  mt-14 w-1/3 p-5 rounded-lg bg-white min-w-[210px] flex flex-col gap-2 justify-end items-end z-10">
                 <Link 
@@ -105,7 +103,7 @@ const Nav = () => {
               onClick={() => signIn(provider.id)}
               className="outline_btn mr-10"
             >
-              Zaloguj się
+              {provider.name}
             </button>
           ))}
           </>
@@ -117,14 +115,11 @@ const Nav = () => {
       <div className="sm:hidden flex relative">
         {session?.user ? (
           <div className="flex">
-            <Image 
-                  src={session?.user.image}
-                  width={37}
-                  height={37}
-                  className="rounded-full mr-5"
-                  alt="profile"
-                  onClick={() => settoggleDropdown((prev) => !prev)}
-                />
+            <FontAwesomeIcon 
+              icon={faCircleUser} alt="profile"
+              onClick={() => settoggleDropdown((prev) => !prev)} 
+              className="text-4xl mr-4"
+            />
 
                 {toggleDropdown && (
                   <div className="dropdown z-10">
@@ -162,19 +157,7 @@ const Nav = () => {
                   </div>
                 )}
           </div>
-        ): (
-          <>
-          {providers && Object.values(providers).map((provider) => (
-            <button
-              type="button"
-              key={provider.name}
-              onClick={() => signIn(provider.id)}
-              className="black_btn mr-5"
-            >
-              Zaloguj się
-            </button>
-          ))}
-          </>
+        ): (<></>
         )}
       </div>
       </div>

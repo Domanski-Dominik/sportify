@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 const Participants = () => {
   const router = useRouter();
   const {data:session,status }= useSession();
+
   
   if (status === "authenticated") {
     return <AllParticipantList />

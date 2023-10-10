@@ -3,6 +3,7 @@
 import GoBack from '@components/GoBack';
 import ParticipantList from '@components/ParticipantList';
 import { useSession } from 'next-auth/react';
+import Loading from '@components/loading';
 
 import {useEffect,useState, forwardRef} from 'react';
 import DatePicker from "react-datepicker";
@@ -19,6 +20,7 @@ const GroupList = ({params}) => {
   const [list, setList] = useState(null)
   const [allLocs,setAllLocs] = useState();
   const {data:session,status }= useSession();
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -37,6 +39,7 @@ const GroupList = ({params}) => {
 
       console.log(data)
       setList(data);
+      setLoading(false);
     };
 
     if (params?.id) fetchGroups();
@@ -69,6 +72,9 @@ const GroupList = ({params}) => {
   if(status === "authenticated"){
     return (
       <>
+      {loading? (
+         <Loading />
+      ) : (<>
       <GoBack />
       <div className='absolute top-[80px] right-5'><DatePicker 
        selected={selectedDate} 
@@ -94,6 +100,8 @@ const GroupList = ({params}) => {
       </div>
       
       </section>
+      </>
+      )}
       </>
     )
   };

@@ -2,37 +2,39 @@
 
 import {useState} from 'react'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
-import Register from './Register'
+import Login from './Login'
 
-const Login = () => {
-    const [register, setRegister] = useState(false)
+const Register = () => {
+    const [login, setLogin] = useState(false)
     const router = useRouter();
     const [data, setData] = useState({
         email: '',
         password: '',
     })
 
-    const loginUser = async (e) => {
+    const registerUser = async (e) => {
         e.preventDefault();
-        signIn('credentials', {
-          ...data, 
-          redirect: false,
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          body: JSON.stringify({data})
         })
+        const userInfo = await response.json();
+        console.log(userInfo);
+        router.push('/locations')
     };
-    if(register) {
-      return <Register />
+    if(login) {
+        return <Login />
     }
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-      <h2 className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-gray-900 ">
-        Zaloguj się 
+      <h2 className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-gray-900">
+        Zarejestruj się
       </h2>
     </div>
 
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form className="space-y-6" onSubmit={loginUser}>
+      <form className="space-y-6" onSubmit={registerUser}>
         <div>
           <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
             Adres email
@@ -54,7 +56,7 @@ const Login = () => {
         <div>
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-              Hasło
+              Utwórz hasło
             </label>
 
           </div>
@@ -77,14 +79,14 @@ const Login = () => {
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Zaloguj się
+            Utwórz konto
           </button>
         </div>
       </form>
       <p className="mt-10 text-center text-sm text-gray-500">
-            Nie masz konta?{' '}
-            <button onClick={() => setRegister(true)} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Zarejestruj się!
+            Masz konto?{' '}
+            <button onClick={() => setLogin(true)} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Zaloguj się!
             </button>
           </p>
     </div>
@@ -92,4 +94,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register

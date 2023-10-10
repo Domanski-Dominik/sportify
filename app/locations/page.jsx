@@ -24,7 +24,6 @@ const Locations = () => {
   const [allLocs, setAllLocs] = useState([])
   const router = useRouter();
   const {data:session,status }= useSession();
- 
 
 
   const fetchLoc = async () => {
@@ -52,9 +51,8 @@ const Locations = () => {
           data={allLocs} 
           handleClick={handleClick} 
           />
-        
+        {console.log(session)}
       </section>
-    
     )
   };
   return <Login />;
