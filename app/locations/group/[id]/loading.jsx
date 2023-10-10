@@ -1,16 +1,12 @@
+import Loading from "@components/loading"
 
-const Loading= () => {
-  // Or a custom loading skeleton component
+const LoadingPage = () => {
   return (
-  <div className="loader">
-  <div className="inner one"></div>
-  <div className="inner two"></div>
-  <div className="inner three"></div>
-</div>
-);
+    <Loading />
+  )
 }
 
-export default Loading;
+export default LoadingPage
 
 
 

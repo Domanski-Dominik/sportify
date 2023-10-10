@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type LocsDaysOfWeek {
+  id     String   @map("_id") @db.ObjectId
+  day    String
+  groups String[]
+
+}
+
+type ParticipantsGr {
+  id   String @map("_id") @db.ObjectId
+  day  String @db.ObjectId
+  name String
+
+}
+
+type ParticipantsPayments {
+  id    String @map("_id") @db.ObjectId
+  money String
+  month String
+  note  String
+}
+
+model locs {
+  id         String           @id @default(auto()) @map("_id") @db.ObjectId
+  v          Int?              @map("__v")
+  address    String
+  daysOfWeek LocsDaysOfWeek[]
+  name       String
+}
+
+model participants {
+  id       String                 @id @default(auto()) @map("_id") @db.ObjectId
+  v        Int?                    @map("__v")
+  email    String
+  gr       ParticipantsGr[]
+  name     String
+  note     String?
+  payments ParticipantsPayments[]
+  presence String[]
+  surname  String
+  tel      String
+}
+
+
+model Account {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String  @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? 
+  access_token       String? 
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? 
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique @map("session_token")
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  password      String?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
