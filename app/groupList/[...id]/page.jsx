@@ -3,7 +3,7 @@
 import GoBack from '@components/GoBack';
 import ParticipantList from '@components/ParticipantList';
 import { useSession } from 'next-auth/react';
-import Loading from '@components/loading';
+import Loading from '@components/Loading';
 
 import {useEffect,useState, forwardRef} from 'react';
 import DatePicker from "react-datepicker";

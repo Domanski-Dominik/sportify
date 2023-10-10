@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import pl from 'date-fns/locale/pl';
 import Modal from "./Modal";
-import Loading from "./loading";
+import Loading from '@components/Loading';
 
 const AllParticipantList = () => {
   
