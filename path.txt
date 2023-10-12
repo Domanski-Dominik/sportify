@@ -1,1 +1,0 @@
-:C:/Users/doman/sportify/.env
